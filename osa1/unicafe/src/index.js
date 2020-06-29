@@ -6,10 +6,21 @@ const Header = ({title}) => <h1>{title}</h1>
 const SubHeader = ({title}) => <h2>{title}</h2>
 
 const Feedback = (props) =>
-  <p>{props.name}: {props.number}</p>
+  <tr>
+    <td>{props.name}:</td>
+    <td>{props.number}</td>
+  </tr>
 
-const StatisticLine = ({text, value, ending}) =>
-  <p>{text} {value} {ending}</p>
+const StatisticLine = ({text, value, ending}) =>{
+if(ending === ""){
+  return(
+  <tr><td>{text}</td><td colSpan="2">{value}</td></tr>
+  )
+}
+  return(
+    <tr><td>{text}</td><td>{value}</td><td>{ending}</td></tr>
+  )
+}
 
 const Statistics = ({plus, zero, minus}) => {
   const sum = plus+zero+minus
@@ -18,7 +29,7 @@ const Statistics = ({plus, zero, minus}) => {
 
   if(sum === 0){
     return(
-      <p>Emme ole vielä saaneet palautetta.</p>
+      <tr><td colSpan="2">Emme ole vielä saaneet palautetta.</td></tr>
     )
   }
 
@@ -50,15 +61,17 @@ const App = () => {
       <Button handleClick={() => setNeutral(neutral + 1)} name="Neutraali"/>
       <Button handleClick={() => setBad(bad + 1)} name="Huono"/>
 
-      <SubHeader title="Palaute"/>
+      <SubHeader title="Palaute ja tilastot"/>
 
-      <Feedback number={good} name="Hyvä" />
-      <Feedback number={neutral} name="Neutraali" />
-      <Feedback number={bad} name="Huono" />
-
-      <SubHeader title="Tilastot"/>
-
-      <Statistics plus={good} zero={neutral} minus={bad}/>
+      <table>
+        <tbody>
+          <Feedback number={good} name="Hyvä" />
+          <Feedback number={neutral} name="Neutraali" />
+          <Feedback number={bad} name="Huono" />
+          <Statistics plus={good} zero={neutral} minus={bad}/>
+        </tbody>
+      </table>
+      
 
     </div>
   )
