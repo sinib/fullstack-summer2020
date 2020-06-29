@@ -1,27 +1,33 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
+// sivun otsikot
 const Header = ({title}) => <h1>{title}</h1>
 
 const SubHeader = ({title}) => <h2>{title}</h2>
 
+// palauttaa saatujen palautteiden määrät taulukkoriveinä
 const Feedback = (props) =>
   <tr>
     <td>{props.name}:</td>
     <td>{props.number}</td>
   </tr>
 
+// palauttaa tilastoja saadusta palautteesta
 const StatisticLine = ({text, value, ending}) =>{
-if(ending === ""){
-  return(
-  <tr><td>{text}</td><td colSpan="2">{value}</td></tr>
-  )
-}
+  // yhteensä ja keskiarvo ovat lyhyitä ja käyttävät tätä
+  if(ending === ""){
+    return(
+    <tr><td>{text}</td><td colSpan="2">{value}</td></tr>
+    )
+  }
+  // positiivisen palautteen osuus on pidempi
   return(
     <tr><td>{text}</td><td>{value}</td><td>{ending}</td></tr>
   )
 }
 
+// laskee palautteen tilastot ja näyttää ne, jos palautetta on annettu
 const Statistics = ({plus, zero, minus}) => {
   const sum = plus+zero+minus
   const avg = (plus + minus * -1)/(plus+zero+minus)
@@ -42,6 +48,7 @@ const Statistics = ({plus, zero, minus}) => {
   )
 }
 
+// palautenappulat
 const Button = (props) =>
   <button onClick={props.handleClick}>
     {props.name}
