@@ -10,4 +10,5 @@ Päästy loppuun 30.6.2020 - ei ongelmia, 10 tuntia yhteensä
 
 ## Osa 2 
 Päästy loppuun xx.xx.2020 - xx tuntia yhteensä  
-2.1 - 1,5 tuntia
+2.1 - 2 tuntia  
+2.6-2.10 tuli vähän hassu mutta: 4,5 tuntia
