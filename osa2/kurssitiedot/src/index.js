@@ -5,6 +5,7 @@ import Course from './components/Course'
 const Header = (props) => 
     <h1>{props.title}</h1>
 
+// creates the listing of courses
 const Courses = (props) => 
   <>
     {props.courses.map(course => <Course key={course.id} course={course}/>)}
