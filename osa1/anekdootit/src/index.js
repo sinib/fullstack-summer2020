@@ -8,6 +8,7 @@ const Button = (props) =>
     {props.name}
   </button>
 
+// palauttaa anekdootin, jolla on eniten ääniä
 const Favourite = ({anecdotes, votes}) => {
   let maximum = Math.max(...votes)
   let index = votes.indexOf(maximum)
@@ -15,10 +16,13 @@ const Favourite = ({anecdotes, votes}) => {
 }
 
 const App = (props) => {
+  // valitun anekdootin tila
   const [selected, setSelected] = useState(0)
 
+  // anekdoottien äänten tila
   const [votes, setVotes] = useState(new Uint8Array(anecdotes.length))
 
+  // valitsee satunnaisen anekdootin listasta niin, että samaa anekdoottia ei valita peräkkäin useasti
   const random = choices => {
     let number = Math.floor(Math.random() * choices)
     while (selected === number){
@@ -27,6 +31,7 @@ const App = (props) => {
     setSelected(number)
   }
 
+  // kirjaa annetun äänen
   const voting = () => {
     const copy = [...votes]
     copy[selected] += 1
