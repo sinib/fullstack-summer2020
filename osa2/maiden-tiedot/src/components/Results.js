@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
-
+// fetches the weather of the country's capital from an API and renders info about it
 const Weather = ({country}) => {
     const api_key = process.env.REACT_APP_API_KEY
     const apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q='+  country.capital + ',' + country.alpha2Code + '&appid=' + api_key
@@ -33,6 +33,7 @@ const Weather = ({country}) => {
 const Language = ({language}) =>
     <li>{language.name}</li>
 
+// renders the country's info
 const Country = ({country}) => {
     return(
         <>
@@ -54,6 +55,7 @@ const Country = ({country}) => {
     
 }
 
+// renders the results differently depending on how many there are
 const Results = (props) => {
     const resultAmount = props.countries.length
 
