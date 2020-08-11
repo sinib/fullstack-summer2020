@@ -15,6 +15,7 @@ const App = () => {
 
     const [ nameSearch, setSearch ] = useState('')
 
+    // Effect that fetches the contacts from the database
     const fetchHook = () => {
         contactService
           .getAll()
@@ -25,6 +26,7 @@ const App = () => {
 
     useEffect(fetchHook, [])
 
+    // These three update the input render in the fields
     const nameInput = (event) => {
         setNewName(event.target.value)
     }
@@ -37,37 +39,46 @@ const App = () => {
         setSearch(event.target.value)
     }
 
+    // Handles the submitting of a new contact
     const formHandler = (event) => {
         event.preventDefault()
         const newGuy={name:newName, number:newNumber}
+        // Checks if the person is already in contacts
         const comparison = persons.find(guy=>guy.name === newName)
         if (comparison === undefined){
+            // Add if a new contact
             contactService    
             .add(newGuy)    
             .then(addedGuy => {      
-                setPersons(persons.concat(addedGuy))    
+                setPersons(persons.concat(addedGuy))
+                setNewName('')
+                setNewNumber('') 
             })
             
         }
         else {
+            // Update if an existing contact (and the permission is given)
             if(window.confirm(`${comparison.name} is already in the phonebook. Do you want to replace the number?`)){
                 contactService
                 .update(comparison.id, newGuy)
                 .then(updatedGuy => {      
                     setPersons(persons.map(guy => guy.id !== comparison.id ? guy : updatedGuy))
+                    setNewName('')
+                    setNewNumber('')
                 })
             } 
         }
     }
 
+    // Updates the contacts to be rendered after a removal of a contact
     const updateRemoved = (id) => {
-        id = Number(id)
         const removed = persons.findIndex((person) => person.id === Number(id))
         const newPersons = persons.slice(0,removed).concat(persons.slice(removed+1))
         setPersons(newPersons)
 
     }
 
+    // Handles the removal of a contact from the database
     const remove = (event) => {
         const id = event.target.value
         const toBeDeleted = persons.find(person =>person.id === Number(id))
@@ -81,6 +92,7 @@ const App = () => {
         
     }
 
+    // Decides which contacts to show depending on the search input
     const shownContacts = nameSearch === '' 
         ? persons 
         : persons.filter(person => person.name.toLowerCase().includes(nameSearch.toLowerCase()))

@@ -8,6 +8,7 @@ const Input = (props) =>
 const Button = (props) =>
 <button type={props.type}>{props.text}</button>
 
+// Builds forms from given input, button, and onSubmit -props
 const Form = (props) =>{
     let action
     if (props.onSubmit === ''){
