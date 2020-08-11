@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import Contacts from './components/Contacts'
 import Form from './components/Forms'
+import contactService from './services/persons'
 
 const SubHeader = ({title}) =>
     <h2>{title}</h2>
@@ -16,10 +16,10 @@ const App = () => {
     const [ nameSearch, setSearch ] = useState('')
 
     const fetchHook = () => {
-        axios
-          .get('http://localhost:3001/persons')
-          .then(response => {
-            setPersons(response.data)
+        contactService
+          .getAll()
+          .then(contacts => {
+            setPersons(contacts)
           })
       }
 
@@ -42,11 +42,43 @@ const App = () => {
         const newGuy={name:newName, number:newNumber}
         const comparison = persons.find(guy=>guy.name === newName)
         if (comparison === undefined){
-            setPersons(persons.concat(newGuy))
+            contactService    
+            .add(newGuy)    
+            .then(addedGuy => {      
+                setPersons(persons.concat(addedGuy))    
+            })
+            
         }
         else {
-            window.alert(`${newName} is already in the phonebook.`)
-        } 
+            if(window.confirm(`${comparison.name} is already in the phonebook. Do you want to replace the number?`)){
+                contactService
+                .update(comparison.id, newGuy)
+                .then(updatedGuy => {      
+                    setPersons(persons.map(guy => guy.id !== comparison.id ? guy : updatedGuy))
+                })
+            } 
+        }
+    }
+
+    const updateRemoved = (id) => {
+        id = Number(id)
+        const removed = persons.findIndex((person) => person.id === Number(id))
+        const newPersons = persons.slice(0,removed).concat(persons.slice(removed+1))
+        setPersons(newPersons)
+
+    }
+
+    const remove = (event) => {
+        const id = event.target.value
+        const toBeDeleted = persons.find(person =>person.id === Number(id))
+        if(window.confirm(`Do you really want to delete ${toBeDeleted.name}?`)){
+            contactService
+            .remove(id)
+            .then(
+                updateRemoved(id)
+            )
+        }
+        
     }
 
     const shownContacts = nameSearch === '' 
@@ -77,7 +109,7 @@ const App = () => {
                 onSubmit={formHandler}/>
 
         <SubHeader title="Contacts"/>
-        <Contacts list={shownContacts}/>
+        <Contacts list={shownContacts} remover = {remove}/>
       </div>
     )
   }
