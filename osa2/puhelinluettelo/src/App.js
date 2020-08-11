@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import Contacts from './components/Contacts'
 import Form from './components/Forms'
+import Notification from './components/Notifications'
 import contactService from './services/persons'
+import './index.css'
 
 const SubHeader = ({title}) =>
     <h2>{title}</h2>
@@ -14,6 +16,8 @@ const App = () => {
     const [ newNumber, setNewNumber ] = useState('')
 
     const [ nameSearch, setSearch ] = useState('')
+
+    const [ message, setMessage ] = useState([null,false])
 
     // Effect that fetches the contacts from the database
     const fetchHook = () => {
@@ -51,8 +55,14 @@ const App = () => {
             .add(newGuy)    
             .then(addedGuy => {      
                 setPersons(persons.concat(addedGuy))
+                // Empty input fields
                 setNewName('')
-                setNewNumber('') 
+                setNewNumber('')
+                // Show successful addition message
+                setMessage([`${addedGuy.name} was added`,false])        
+                setTimeout(() => {          
+                    setMessage([null,false])        
+                }, 5000)
             })
             
         }
@@ -63,9 +73,24 @@ const App = () => {
                 .update(comparison.id, newGuy)
                 .then(updatedGuy => {      
                     setPersons(persons.map(guy => guy.id !== comparison.id ? guy : updatedGuy))
+                    // Empty input fields
                     setNewName('')
                     setNewNumber('')
+                    // Show successful update message
+                    setMessage([`Updated the number for ${updatedGuy.name}`,false])        
+                    setTimeout(() => {          
+                    setMessage([null,false])        
+                }, 5000)
                 })
+                // Show an error message if the contact to be updated has already been removed from the server
+                .catch(error => {
+                    setMessage([`${comparison.name} has already been removed from contacts.`,true])        
+                    setTimeout(() => {          
+                    setMessage([null,false])        
+                }, 5000)
+                }
+
+                )
             } 
         }
     }
@@ -73,8 +98,14 @@ const App = () => {
     // Updates the contacts to be rendered after a removal of a contact
     const updateRemoved = (id) => {
         const removed = persons.findIndex((person) => person.id === Number(id))
+        const removedName = persons[removed].name
         const newPersons = persons.slice(0,removed).concat(persons.slice(removed+1))
         setPersons(newPersons)
+        // Show successful removal message
+        setMessage([`Removed ${removedName} from contacts.`,false])        
+                setTimeout(() => {          
+                    setMessage([null,false])        
+                }, 5000)
 
     }
 
@@ -110,6 +141,8 @@ const App = () => {
                 onSubmit=''/>
 
         <SubHeader title="Add new contact"/>
+
+        <Notification msgData = {message}/>
 
         <Form   inputs={[
                         {id:2, name:'Name', value:newName, onChange:nameInput}, 
