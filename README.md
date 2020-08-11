@@ -18,3 +18,4 @@ Päästy loppuun 11.8.2020 - 26 tuntia yhteensä
 
 ## Osa 3 
 Päästy loppuun x.x.2020 - xxx tuntia yhteensä  
+3.1-3.8 - ei ongelmia, 3,5 tuntia / Osan 3 backend löytyy [täältä](https://github.com/sinib/fullstack-summer2020-osa3).
