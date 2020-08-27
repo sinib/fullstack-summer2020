@@ -97,7 +97,7 @@ const App = () => {
 
     // Updates the contacts to be rendered after a removal of a contact
     const updateRemoved = (id) => {
-        const removed = persons.findIndex((person) => person.id === Number(id))
+        const removed = persons.findIndex((person) => person.id === id)
         const removedName = persons[removed].name
         const newPersons = persons.slice(0,removed).concat(persons.slice(removed+1))
         setPersons(newPersons)
@@ -112,7 +112,7 @@ const App = () => {
     // Handles the removal of a contact from the database
     const remove = (event) => {
         const id = event.target.value
-        const toBeDeleted = persons.find(person =>person.id === Number(id))
+        const toBeDeleted = persons.find(person =>person.id === id)
         if(window.confirm(`Do you really want to delete ${toBeDeleted.name}?`)){
             contactService
             .remove(id)
