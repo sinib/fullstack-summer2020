@@ -64,7 +64,13 @@ const App = () => {
                     setMessage([null,false])        
                 }, 5000)
             })
-            
+            .catch(error => {
+                setMessage([`Error: ${error.response.data.error}`,true])        
+                setTimeout(() => {          
+                    setMessage([null,false])        
+                }, 7000)
+                console.log(error.response.data.error)
+              })
         }
         else {
             // Update if an existing contact (and the permission is given)
