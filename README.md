@@ -17,8 +17,9 @@ Päästy loppuun 11.8.2020 - 26 tuntia yhteensä
 2.19-2.20 - ei ongelmia, 1,5 tuntia  
 
 ## Osa 3 
-Päästy loppuun x.x.2020 - xxx tuntia yhteensä  
+Päästy loppuun 15.10.2020 - 9 tuntia yhteensä  
 3.1-3.8 - ei ongelmia, 3,5 tuntia / Osan 3 backend löytyy [täältä](https://github.com/sinib/fullstack-summer2020-osa3).  
 3.9-3.11 - ei ongelmia, 2 tuntia  
 3.12-3.18 - ei ongelmia, 2,5 tuntia  
 3.19-3.21 - ei ongelmia, 1,5 tuntia  
+3.22 - näyttää olevan erilaisia rivivaihtoja (?) windows tai unix niin aina jossain ESlint valittaa, 0,5 tuntia  
